@@ -2,11 +2,23 @@ import copy
 import json
 import time
 import requests
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'AIWine', 'build'))
+
+import gomoku_ai
+
+ai = gomoku_ai.AIWine()
+ai.setSize(20)
+ai.restart()
 
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
 
-from TicTacToeAi import get_move
+from TicTacToeAi1 import get_move1
+from TicTacToeAi2 import get_move2
+from TicTacToeAI3 import get_best_move
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -69,13 +81,27 @@ class GameClient:
                     self.size = int(data.get("size"))
                     self.board = copy.deepcopy(data.get("board"))
                     # Lấy nước đi từ AI, nước đi là một tuple (i, j)
-                    move = get_move(self.board, self.size)
+                    move = get_move1(self.board, self.size)
                     print("Move: ", move)
                     # Kiểm tra nước đi hợp lệ
                     valid_move = self.check_valid_move(move)
                     # Nếu hợp lệ thì gửi nước đi
                     if valid_move:
+                        ai.turnMove(move[0], move[1])
                         self.board[int(move[0])][int(move[1])] = self.team_roles
+                        game_info["board"] = self.board
+                        self.send_move()
+                    else:
+                        print("Invalid move")
+                else:
+                    self.board = copy.deepcopy(data.get("board"))
+                    # move = get_move2(self.board)
+                    # move = get_best_move(self.board, 2, True)
+                    move = ai.turnBest()
+                    print("Move: ", move)
+                    valid_move = self.check_valid_move(move)
+                    if valid_move:
+                        self.board[int(move[0])][int(move[1])] = 'o'
                         game_info["board"] = self.board
                         self.send_move()
                     else:

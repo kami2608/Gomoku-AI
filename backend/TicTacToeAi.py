@@ -16,3 +16,5 @@ def get_move(board, size):
         return None
     # Choose a random available move
     return available_moves[random.randint(0, len(available_moves) - 1)]
+
+
