@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Users\\ADMIN\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\pybind11\\include",
+                "C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\pybind11\\include",
                 "C:\\Users\\ADMIN\\AppData\\Local\\Programs\\Python\\Python310\\include"
             ],
             "defines": [
@@ -14,8 +14,8 @@
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
             "intelliSenseMode": "windows-msvc-x64"
         }
     ],

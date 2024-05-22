@@ -1,0 +1,38 @@
+[
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe   -g -o CMakeFiles\\AIWine.dir\\src\\AIWine.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\AIWine.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/AIWine.cpp",
+  "output": "CMakeFiles/AIWine.dir/src/AIWine.cpp.obj"
+},
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -Dgomoku_ai_EXPORTS @CMakeFiles/gomoku_ai.dir/includes_CXX.rsp -g -fvisibility=hidden -o CMakeFiles\\gomoku_ai.dir\\src\\AIWine.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\AIWine.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/AIWine.cpp",
+  "output": "CMakeFiles/gomoku_ai.dir/src/AIWine.cpp.obj"
+},
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -Dgomoku_ai_EXPORTS @CMakeFiles/gomoku_ai.dir/includes_CXX.rsp -g -fvisibility=hidden -o CMakeFiles\\gomoku_ai.dir\\src\\Board.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\Board.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/Board.cpp",
+  "output": "CMakeFiles/gomoku_ai.dir/src/Board.cpp.obj"
+},
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -Dgomoku_ai_EXPORTS @CMakeFiles/gomoku_ai.dir/includes_CXX.rsp -g -fvisibility=hidden -o CMakeFiles\\gomoku_ai.dir\\src\\Chess.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\Chess.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/Chess.cpp",
+  "output": "CMakeFiles/gomoku_ai.dir/src/Chess.cpp.obj"
+},
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -Dgomoku_ai_EXPORTS @CMakeFiles/gomoku_ai.dir/includes_CXX.rsp -g -fvisibility=hidden -o CMakeFiles\\gomoku_ai.dir\\src\\ChessShape.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\ChessShape.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/ChessShape.cpp",
+  "output": "CMakeFiles/gomoku_ai.dir/src/ChessShape.cpp.obj"
+},
+{
+  "directory": "C:/Users/ADMIN/VSCode/AICaroGame/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -Dgomoku_ai_EXPORTS @CMakeFiles/gomoku_ai.dir/includes_CXX.rsp -g -fvisibility=hidden -o CMakeFiles\\gomoku_ai.dir\\src\\binder.cpp.obj -c C:\\Users\\ADMIN\\VSCode\\AICaroGame\\backend\\AIWine\\src\\binder.cpp",
+  "file": "C:/Users/ADMIN/VSCode/AICaroGame/backend/AIWine/src/binder.cpp",
+  "output": "CMakeFiles/gomoku_ai.dir/src/binder.cpp.obj"
+}
+]

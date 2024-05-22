@@ -1,0 +1,2 @@
+C:\mingw64\bin\ar.exe qc libAIWine.a CMakeFiles/AIWine.dir/src/AIWine.cpp.obj
+C:\mingw64\bin\ranlib.exe libAIWine.a

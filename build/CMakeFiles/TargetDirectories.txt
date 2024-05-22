@@ -1,0 +1,6 @@
+C:/Users/ADMIN/VSCode/AICaroGame/build/CMakeFiles/AIWine.dir
+C:/Users/ADMIN/VSCode/AICaroGame/build/CMakeFiles/gomoku_ai.dir
+C:/Users/ADMIN/VSCode/AICaroGame/build/CMakeFiles/edit_cache.dir
+C:/Users/ADMIN/VSCode/AICaroGame/build/CMakeFiles/rebuild_cache.dir
+C:/Users/ADMIN/VSCode/AICaroGame/build/pybind11/CMakeFiles/edit_cache.dir
+C:/Users/ADMIN/VSCode/AICaroGame/build/pybind11/CMakeFiles/rebuild_cache.dir

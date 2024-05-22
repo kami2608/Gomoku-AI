@@ -47,7 +47,7 @@ team1_role = "x"
 team2_role = "o"
 room_id = "123"
 match_id = "321"
-size = 20
+size = 15
 #################
 
 time_list = [time.time()] * 2
