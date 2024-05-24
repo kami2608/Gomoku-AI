@@ -1,0 +1,1 @@
+ external/lz4/liblz4.a external/zip/libzip.a -ltbb12 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

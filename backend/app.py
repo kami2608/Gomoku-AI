@@ -2,12 +2,18 @@ import copy
 import json
 import time
 import requests
+import os
 
 import cmake_example
+from Rapfi import Rapfi
 
 ai = cmake_example.AIWine()
-ai.setSize(15)
-# ai.restart()
+ai.setSize(20)
+
+executable_path = os.path.join("build", "pbrain-rapfi.exe")
+rapfi = Rapfi(executable_path, size=20)
+rapfi.init()
+
 
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
@@ -42,6 +48,7 @@ class GameClient:
         self.size = None
         self.ai = None
         self.room_id = None
+        self.first_move = True
 
     def listen(self):
         # Lắng nghe yêu cầu từ server trọng tài
@@ -80,8 +87,10 @@ class GameClient:
                     self.size = int(data.get("size"))
                     self.board = copy.deepcopy(data.get("board"))
                     # Lấy nước đi từ AI, nước đi là một tuple (i, j)
-                    move = get_move2(self.board)
+                    # move = get_move2(self.board)
                     # move = get_move1(self.board, self.size)
+                    move = rapfi.turn_best(self.first_move)
+                    self.first_move = False
                     print("Move: ", move)
                     # Kiểm tra nước đi hợp lệ
                     valid_move = self.check_valid_move(move)
@@ -100,6 +109,7 @@ class GameClient:
                     # move = get_move2(self.board)
                     # move = get_best_move(self.board, 2, True)
                     move = ai.turnBest()
+                    rapfi.turn_move(move[0], move[1])
                     print("Move: ", move)
                     valid_move = self.check_valid_move(move)
                     if valid_move:

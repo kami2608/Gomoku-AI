@@ -1,0 +1,3 @@
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E rm -f CMakeFiles\rapfi.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\rapfi.dir/objects.a @CMakeFiles\rapfi.dir\objects1.rsp
+C:\msys64\mingw64\bin\c++.exe  -mavx2 -mfma -Wall -Wno-unused-variable -Wno-unused-function -Wno-missing-braces -Wno-logical-op-parentheses -Wno-parentheses -Wno-sign-compare -Wno-strict-prototypes -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\rapfi.dir/objects.a -Wl,--no-whole-archive -o pbrain-rapfi.exe -Wl,--out-implib,libpbrain-rapfi.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\rapfi.dir\linkLibs.rsp
