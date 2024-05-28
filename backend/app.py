@@ -6,13 +6,15 @@ import requests
 
 # import cmake_example
 from Rapfi import Rapfi
+# from Rapfi2 import Rapfi2
 
 # ai = cmake_example.AIWine()
 # ai.setSize(23)
 
-# executable_path = os.path.join("build", "pbrain-rapfi.exe")
-rapfi = Rapfi(size=20)
+rapfi = Rapfi(size=8)
 rapfi.init()
+# rapfi1 = Rapfi2(size=8)
+# rapfi1.init()
 
 
 from flask import Flask, jsonify, make_response, request
@@ -44,6 +46,7 @@ class GameClient:
         self.team_roles = your_team_roles
         self.match_id = None
         self.board = None
+        # self.previous_board = None
         self.init = None
         self.size = None
         self.ai = None
@@ -83,9 +86,18 @@ class GameClient:
             elif data.get("board") and data.get("status") is None:
                 # Nếu là lượt đi của đội của mình thì gửi nước đi             
                 log_game_info()
+                self.size = int(data.get("size"))
+                new_board = copy.deepcopy(data.get("board"))
+                if self.board is not None:
+                    opponent_move = self.get_last_opponent_move(new_board)
+                    if opponent_move:
+                        print("Opponent's move: ", opponent_move)
+                        rapfi.turn_move(opponent_move[0], opponent_move[1])
+                self.board = new_board
+
                 if data.get("turn") in self.team_id:
-                    self.size = int(data.get("size"))
-                    self.board = copy.deepcopy(data.get("board"))
+                    # self.size = int(data.get("size"))
+                    # self.board = copy.deepcopy(data.get("board"))
                     # Lấy nước đi từ AI, nước đi là một tuple (i, j)
                     # move = get_move2(self.board)
                     # move = get_move1(self.board, self.size)
@@ -96,33 +108,41 @@ class GameClient:
                     valid_move = self.check_valid_move(move)
                     # Nếu hợp lệ thì gửi nước đi
                     if valid_move:
+                        # rapfi1.turn_move(move[0], move[1])
                         # ai.turnMove(move[0], move[1])
-                        last_move_x = move[0]
-                        last_move_y = move[1]
                         self.board[int(move[0])][int(move[1])] = self.team_roles
                         game_info["board"] = self.board
                         self.send_move()
                     else:
                         print("Invalid move")
-                else:
-                    self.board = copy.deepcopy(data.get("board"))
-                    move = get_move2(self.board)
-                    # move = get_best_move(self.board, 2, True)
-                    # move = ai.turnBest()
-                    rapfi.turn_move(move[0], move[1])
-                    print("Move: ", move)
-                    valid_move = self.check_valid_move(move)
-                    if valid_move:
-                        self.board[int(move[0])][int(move[1])] = 'o'
-                        game_info["board"] = self.board
-                        self.send_move()
-                    else:
-                        print("Invalid move")
+                # else:
+                #     self.board = copy.deepcopy(data.get("board"))
+                #     # move = rapfi1.turn_best(self.first_move)
+                #     # self.first_move = False
+                #     move = get_move2(self.board)
+                #     # move = get_best_move(self.board, 2, True)
+                #     # move = ai.turnBest()
+                #     # rapfi.turn_move(move[0], move[1])
+                #     print("Move: ", move)
+                #     valid_move = self.check_valid_move(move)
+                #     if valid_move:
+                #         self.board[int(move[0])][int(move[1])] = 'o'
+                #         game_info["board"] = self.board
+                #         self.send_move()
+                #     else:
+                #         print("Invalid move")
 
             # Kết thúc trò chơi
             elif data.get("status") is not None:
                 print("Game over")
                 break
+    
+    def get_last_opponent_move(self, new_board):
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.board[i][j] == " " and new_board[i][j] != " ":
+                    return (i, j)
+        return None
 
     # Gửi thông tin trò chơi đến server trọng tài
     def send_game_info(self):
