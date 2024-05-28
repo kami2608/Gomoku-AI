@@ -2,16 +2,16 @@ import copy
 import json
 import time
 import requests
+import os
 
-
-# import cmake_example
+import cmake_example
 from Rapfi import Rapfi
 
-# ai = cmake_example.AIWine()
-# ai.setSize(23)
+ai = cmake_example.AIWine()
+ai.setSize(20)
 
-# executable_path = os.path.join("build", "pbrain-rapfi.exe")
-rapfi = Rapfi(size=20)
+executable_path = os.path.join("build", "pbrain-rapfi.exe")
+rapfi = Rapfi(executable_path, size=20)
 rapfi.init()
 
 
@@ -84,31 +84,10 @@ class GameClient:
                 # Nếu là lượt đi của đội của mình thì gửi nước đi             
                 log_game_info()
                 if data.get("turn") in self.team_id:
-                    self.size = int(data.get("size"))
                     self.board = copy.deepcopy(data.get("board"))
-                    # Lấy nước đi từ AI, nước đi là một tuple (i, j)
                     # move = get_move2(self.board)
-                    # move = get_move1(self.board, self.size)
-                    move = rapfi.turn_best(self.first_move)
-                    self.first_move = False
-                    print("Move: ", move)
-                    # Kiểm tra nước đi hợp lệ
-                    valid_move = self.check_valid_move(move)
-                    # Nếu hợp lệ thì gửi nước đi
-                    if valid_move:
-                        # ai.turnMove(move[0], move[1])
-                        last_move_x = move[0]
-                        last_move_y = move[1]
-                        self.board[int(move[0])][int(move[1])] = self.team_roles
-                        game_info["board"] = self.board
-                        self.send_move()
-                    else:
-                        print("Invalid move")
-                else:
-                    self.board = copy.deepcopy(data.get("board"))
-                    move = get_move2(self.board)
                     # move = get_best_move(self.board, 2, True)
-                    # move = ai.turnBest()
+                    move = ai.turnBest()
                     rapfi.turn_move(move[0], move[1])
                     print("Move: ", move)
                     valid_move = self.check_valid_move(move)
@@ -118,6 +97,7 @@ class GameClient:
                         self.send_move()
                     else:
                         print("Invalid move")
+            
 
             # Kết thúc trò chơi
             elif data.get("status") is not None:

@@ -74,6 +74,10 @@ def get_data():
     return {
         "room_id": board_game.game_info["room_id"],
         "match_id": board_game.game_info["match_id"],
+        "team1_id": board_game.game_info["team1_id"],
+        "team2_id": board_game.game_info["team2_id"],
+        "board": board_game.board,
+        "size": board_game.size,
         "init": True, 
         }
 
