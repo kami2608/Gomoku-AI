@@ -141,8 +141,8 @@ void AIWine::turnBest(int &x, int &y)
 		turnMove(x, y);
 		return;
 	}
-	if (timeout_turn == 0) timeout_turn = 10000;
-	if (timeout_match == 0) timeout_match = time_left = 10000000;
+	if (timeout_turn == 0) timeout_turn = 20000;
+	if (timeout_match == 0) timeout_match = time_left = 400000;
 	nSearched = 0;
 
 	bool isSolved = false;

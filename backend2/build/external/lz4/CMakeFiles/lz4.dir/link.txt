@@ -1,0 +1,2 @@
+C:\msys64\mingw64\bin\ar.exe qc liblz4.a CMakeFiles/lz4.dir/src/lz4_all.c.obj CMakeFiles/lz4.dir/src/xxhash.c.obj
+C:\msys64\mingw64\bin\ranlib.exe liblz4.a
