@@ -28,7 +28,8 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-host = 'http://localhost:5000'  # Địa chỉ server trọng tài mặc định
+# host = 'http://localhost:5000'  # Địa chỉ server trọng tài mặc định
+host = 'http://192.168.1.7:80'  # Địa chỉ server trọng tài mặc định
 team_id = 123  # team_id mặc định
 game_info = {}  # Thông tin trò chơi để hiển thị trên giao diện
 stop_thread = False  # Biến dùng để dừng thread lắng nghe
@@ -41,15 +42,13 @@ last_move_y = 0
 # nghe trọng tài trả về thông tin hiển thị ở '/', gửi yêu cầu khởi tại qua '/init/' và gửi nước đi qua '/move'
 class GameClient:
     def init_board(self, size):
-        board = []
-        for i in range(size):
-            board.append([])
-            for j in range(size):
-                board[i].append(' ')
+        board = [[' '] * size for _ in range(size)]
         return board
-    def __init__(self, server_url, your_team_id, your_team_roles):
+    def __init__(self, server_url, room_id, your_team_id, opponent_team_id,  your_team_roles):
         self.server_url = server_url
         self.team_id = f'{your_team_id}+{your_team_roles}'
+        self.your_team_id = your_team_id
+        self.opponent_team_id = opponent_team_id
         self.team_roles = your_team_roles
         self.match_id = None
         self.board = None
@@ -57,7 +56,7 @@ class GameClient:
         self.init = None
         self.size = None
         self.ai = None
-        self.room_id = None
+        self.room_id = room_id
         self.first_move = True
         self.move_count = 0
 
@@ -66,7 +65,7 @@ class GameClient:
         # và cập nhật thông tin trò chơi
         while not stop_thread:
             # Thời gian lắng nghe giữa các lần
-            time.sleep(3)
+            time.sleep(0.2)
             # print(f'Init: {self.init}')
 
             # Nếu chưa kết nối thì gửi yêu cầu kết nối
@@ -82,6 +81,7 @@ class GameClient:
 
             # Nếu chưa có id phòng thì tiếp tục gửi yêu cầu
             if data.get("room_id") is None:
+                print("no room id")
                 # print(data)
                 continue
             # Khởi tạo trò chơi
@@ -141,7 +141,8 @@ class GameClient:
 
             # Kết thúc trò chơi
             elif data.get("status") is not None:
-                print("Game over")
+                # log_game_info()
+                print("Game over", data["status"])
                 break
     
     def get_last_opponent_move(self, new_board):
@@ -170,7 +171,9 @@ class GameClient:
     def send_init(self):
         # Gửi yêu cầu kết nối đến server trọng tài
         init_info = {
-            "team_id": self.team_id,
+            "room_id": self.room_id,
+            "team1_id": self.your_team_id,
+            "team2_id": self.opponent_team_id,
             "init": True
         }
         headers = {"Content-Type": "application/json"}
@@ -228,10 +231,15 @@ def get_data():
 if __name__ == "__main__":
     # Lấy địa chỉ server trọng tài từ người dùng
     # host = input("Enter server url: ")
-    host = "http://127.0.0.1:1724"
-    team_id = input("Enter team id: ")
+    # host = "http://127.0.0.1:1724"
+    host = "http://192.168.1.7:80"
+    room_id = input("Enter room id: ")
+    your_team_id = input("Enter your team id: ")
+    opponent_team_id = input("Enter opponent team id: ")
+    # team_id = input("Enter team id: ")
     team_roles = input("Enter team role (x/o): ").lower()
     # Khởi tạo game client
-    gameClient = GameClient(host, team_id, team_roles)
+    # gameClient = GameClient(host, team_id, team_roles)
+    gameClient = GameClient(host, room_id, your_team_id, opponent_team_id, team_roles)
     gameClient.listen()
 

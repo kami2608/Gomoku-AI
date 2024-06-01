@@ -3,12 +3,14 @@ import time
 import os
 
 engine = os.path.join("pbrain-embryo21_s.exe")
+# engine = os.path.join("pbrain_embryo.exe")
 rule = '1'
-timeout_turn = 5000 # seconds
-timeout_match = 30000 # seconds
+timeout_turn = 0 # miliseconds
+timeout_match = 0 # miliseconds
 game_type = 1
-time_left = 29900
+time_left = 2146435072
 max_memory = 83886080
+num_thread = 12
 class Embryo:
     def __init__(self, size):
         self.size = size
@@ -31,6 +33,7 @@ class Embryo:
             self.p.stdin.write(f"INFO game_type {game_type}\n".encode())
             self.p.stdin.write(f"INFO time_left {time_left}\n".encode())
             self.p.stdin.write(f"INFO max_memory {max_memory}\n".encode())
+            # self.p.stdin.write(f"INFO num_thread {num_thread}\n".encode())
             self.p.stdin.write(f"START {self.size}\n".encode())
             self.p.stdin.flush()
             # print("Log: START GAME")
