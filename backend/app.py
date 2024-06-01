@@ -2,6 +2,7 @@ import copy
 import json
 import time
 import requests
+import numpy as np
 
 
 import cmake_example
@@ -16,11 +17,16 @@ from Rapfi import Rapfi
 # rapfi1 = Rapfi2(size=8)
 # rapfi1.init()
 
+from AIWine import Wine
+
+# ai = Wine(size = 8)
+# ai.init()
+
 
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
 
-# from TicTacToeAi1 import get_move1
+from TicTacToeAi1 import get_move1
 from TicTacToeAi2 import get_move2
 # from TicTacToeAI3 import get_best_move
 
@@ -94,35 +100,27 @@ class GameClient:
             elif data.get("board") and data.get("status") is None:
                 # Nếu là lượt đi của đội của mình thì gửi nước đi             
                 log_game_info()
-                # self.size = int(data.get("size"))
-                # if self.board is None or len(self.board) != self.size:
-                #     self.board = self.init_board(self.size)
-
-                # new_board = copy.deepcopy(data.get("board"))
-                # if self.board is not None:
-                #     opponent_move = self.get_last_opponent_move(new_board)
-                #     if opponent_move:
-                #         self.move_count += 1
-                #         # print("Opponent's move: ", opponent_move)
-                #         self.first_move = False
-                #         if self.check_board():
-                #             rapfi.descrease_timeout_turn()
-                #         # ai.turnMove(opponent_move[0], opponent_move[1])
-                #         rapfi.turn_move(opponent_move[0], opponent_move[1])
-                # self.board = new_board
-
                 if data.get("turn") in self.team_id:
                     self.size = int(data.get("size"))
+                    # opponent_move = self.getMoveFromBoard(data.get("board"))
+                    # if opponent_move:
+                    #     print("Opponent's move: ", opponent_move)
+                    #     self.first_move = False
+                    #     x, y = map(int, opponent_move.split(','))
+                    #     ai.turn_move(y, x)
+                    #     # if self.check_board():
+                    #     #     rapfi.descrease_timeout_turn()
+                    #     # rapfi.turn_move(y, x)
+                    #     self.move_count += 1
                     self.board = copy.deepcopy(data.get("board"))
                     # Lấy nước đi từ AI, nước đi là một tuple (i, j)
                     move = get_move2(self.board)
                     # move = get_move1(self.board, self.size)
                 
                     # move = rapfi.turn_best(self.first_move)
-                    # self.first_move = False
-
-                    # move = rapfi.turn_best(self.first_move)
+                    # move = ai.turn_best(self.first_move)
                     self.first_move = False
+
                     # move = ai.turnBest()
 
                     print("Move: ", move)
@@ -144,12 +142,30 @@ class GameClient:
                 print("Game over")
                 break
     
-    def get_last_opponent_move(self, new_board):
-        for i in range(self.size):
-            for j in range(self.size):
-                if self.board[i][j] == " " and new_board[i][j] != " ":
-                    return (i, j)
-        return None
+    def check_board(self):
+        total_cells = self.size * self.size
+        if self.move_count >= total_cells / 2:
+            return True
+        return False
+
+    def getMoveFromBoard(self, board):
+        nBoard = np.array(board)
+        # Check if board is empty
+        if self.board is None:
+            boardSize = nBoard.shape
+            self.board = np.array([[' '] * boardSize[0] for _ in range(boardSize[1])])
+        
+        coordinates = np.where(board != self.board)
+        self.board = nBoard
+
+        # [1][0] is X coord
+        return None if not coordinates[1].any() and not coordinates[0].any() else f'{coordinates[1][0]},{coordinates[0][0]}'
+    
+    def prepare_game_info_for_json(self, info):
+        prepared_info = copy.deepcopy(info)
+        if isinstance(prepared_info.get("board"), np.ndarray):
+            prepared_info["board"] = prepared_info["board"].tolist()
+        return prepared_info
     
     def check_board(self):
         total_cells = self.size * self.size
@@ -165,7 +181,8 @@ class GameClient:
     def send_move(self):
         # Gửi nước đi đến server trọng tài
         headers = {"Content-Type": "application/json"}
-        requests.post(self.server_url + "/move", json=game_info, headers=headers)
+        game_info_copy = self.prepare_game_info_for_json(game_info)
+        requests.post(self.server_url + "/move", json=game_info_copy, headers=headers)
 
     def send_init(self):
         # Gửi yêu cầu kết nối đến server trọng tài

@@ -4,10 +4,10 @@ import os
 
 engine = os.path.join("pbrain-embryo21_s.exe")
 rule = '1'
-timeout_turn = 5000 # seconds
-timeout_match = 30000 # seconds
+timeout_turn = 30000 
+timeout_match = 400000 
 game_type = 1
-time_left = 29900
+time_left = 399000
 max_memory = 83886080
 class Embryo:
     def __init__(self, size):
@@ -37,6 +37,8 @@ class Embryo:
 
     def turn_move(self, x, y):
         print(f'TURN {x},{y}\n')
+        self.p.stdin.write(f"INFO time_left {time_left}\n".encode())
+        self.p.stdin.flush()
         self.p.stdin.write(f'TURN {x},{y}\n'.encode())
         self.p.stdin.flush()
 
@@ -52,7 +54,7 @@ class Embryo:
             if out == '':
                 break
             out = out.replace('\n', '')
-            # print(f"Log: {out}")
+            print(f"Log: {out}")
             if out.find('MESSAGE') == -1 and out.find('DEBUG') == -1 and out.find('OK') == -1:
                 out = out.replace('\n', '')
                 engine_move = out.split(',')

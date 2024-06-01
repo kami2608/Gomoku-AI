@@ -5,8 +5,8 @@ import os
 engine = os.path.join("build", "pbrain-rapfi.exe")
 rule = '1'
 timeout_turn = 5000 # seconds
-timeout_turn_half = 70
-timeout_match = 30000 # seconds
+timeout_turn_half = 100
+timeout_match = 600000 # seconds
 
 class Rapfi:
     def __init__(self, size):
@@ -56,7 +56,7 @@ class Rapfi:
             if out == '':
                 break
             out = out.replace('\n', '')
-            # print(f"Log: {out}")
+            print(f"Log: {out}")
             if out.find('MESSAGE') == -1 and out.find('OK') == -1:
                 out = out.replace('\n', '')
                 engine_move = out.split(',')
